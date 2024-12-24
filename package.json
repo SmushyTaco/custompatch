@@ -2,15 +2,21 @@
   "name": "@smushytaco/custompatch",
   "version": "1.0.0",
   "description": "Tool for patching buggy NPM packages instead of forking them",
-  "author": "SmushyTaco",
+  "author": {
+    "name": "SmushyTaco",
+    "email": "personal@nikanradan.com"
+  },
   "private": false,
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/SmushyTaco/custompatch.git"
   },
+  "bugs": {
+    "url": "https://github.com/SmushyTaco/custompatch/issues"
+  },
   "bin": {
-    "custompatch": "./dist/src/cli.js"
+    "custompatch": "dist/src/cli.js"
   },
   "scripts": {
     "build": "tsc",
@@ -24,7 +30,7 @@
   ],
   "engines": {
     "node": ">=22.12.0",
-    "npm": ">=10.9.2"
+    "npm": ">=11.0.0"
   },
   "publishConfig": {
     "access": "public"
@@ -41,12 +47,13 @@
     "pathe": "^1.1.2"
   },
   "devDependencies": {
-    "@eslint/js": "^9.16.0",
+    "@eslint/js": "^9.17.0",
+    "@smushytaco/versionchecker": "^1.0.0",
     "@types/diff": "^6.0.0",
     "@types/node": "^22.10.2",
     "@types/pacote": "^11.1.8",
     "prettier": "^3.4.2",
     "typescript": "^5.7.2",
-    "typescript-eslint": "^8.18.0"
+    "typescript-eslint": "^8.18.2"
   }
 }
