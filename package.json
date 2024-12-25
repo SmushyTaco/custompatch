@@ -1,6 +1,6 @@
 {
   "name": "@smushytaco/custompatch",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Tool for patching buggy NPM packages instead of forking them",
   "author": {
     "name": "SmushyTaco",
@@ -19,7 +19,8 @@
     "custompatch": "dist/src/cli.js"
   },
   "scripts": {
-    "build": "tsc",
+    "clean": "del-cli dist",
+    "build": "npm run clean && tsc",
     "prepare": "npm run build",
     "start": "node ./dist/src/cli.js"
   },
@@ -57,6 +58,7 @@
     "@typescript-eslint/eslint-plugin": "^8.18.2",
     "@typescript-eslint/parser": "^8.18.2",
     "typescript-eslint": "^8.18.2",
-    "globals": "^15.14.0"
+    "globals": "^15.14.0",
+    "del-cli": "^6.0.0"
   }
 }
