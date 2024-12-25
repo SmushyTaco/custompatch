@@ -1,6 +1,6 @@
 {
   "name": "@smushytaco/custompatch",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Tool for patching buggy NPM packages instead of forking them",
   "type": "module",
   "author": {
@@ -51,7 +51,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",
-    "@smushytaco/versionchecker": "^1.0.0",
+    "@smushytaco/versionchecker": "^1.0.1",
     "@types/diff": "^6.0.0",
     "@types/node": "^22.10.2",
     "@types/pacote": "^11.1.8",
