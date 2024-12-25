@@ -18,7 +18,7 @@ Create a patch and seamlessly apply it locally for all your builds.
 
 ## Installation
 ```bash
-npm install custompatch -g
+npm install @smushytaco/custompatch -g
 ```
 
 ## Setup
