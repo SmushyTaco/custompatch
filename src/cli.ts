@@ -8,12 +8,12 @@ import * as os from 'os';
 import { program } from 'commander';
 import pacote from 'pacote';
 
-import { startColor, stopColor } from './ansiUtils';
-import ownPkg from '../package.json';
-import { PatchFile } from './types';
-import { getConfig, comparePackages, readPatch } from './patchUtils';
-import { npmTarballURL } from './npmUtils';
-import { programOptions, curDir, patchDir } from './variables';
+import chalk from 'chalk';
+import ownPkg from '../package.json' with { type: 'json' };
+import { PatchFile } from './types.js';
+import { getConfig, comparePackages, readPatch } from './patchUtils.js';
+import { npmTarballURL } from './npmUtils.js';
+import { programOptions, curDir, patchDir } from './variables.js';
 
 const patchFiles: PatchFile[] = [];
 
@@ -26,9 +26,7 @@ function addPatchFileIfExists(pkgName: string, version: string): void {
 
     if (!fs.existsSync(dest)) {
         console.log(
-            startColor('yellowBright') +
-                'WARNING: ' +
-                stopColor() +
+            chalk.yellowBright('WARNING') +
                 `Package "${packageName}" is not installed - skipping this patch`
         );
         return;
@@ -40,23 +38,16 @@ function addPatchFileIfExists(pkgName: string, version: string): void {
 (async () => {
     if (!programOptions.version) {
         console.log(
-            startColor('whiteBright') +
-                'CustomPatch' +
-                stopColor() +
+            chalk.whiteBright('CustomPatch') +
                 ' version ' +
-                startColor('greenBright') +
-                ownPkg.version +
-                stopColor() +
+                chalk.greenBright(ownPkg.version) +
                 '\n'
         );
     }
 
     if (!fs.existsSync(path.join(curDir, 'node_modules'))) {
         console.log(
-            startColor('redBright') +
-                'ERROR: ' +
-                stopColor() +
-                'Missing "node_modules" folder'
+            chalk.redBright('ERROR: ') + 'Missing "node_modules" folder'
         );
         process.exit(1);
     }
@@ -64,9 +55,7 @@ function addPatchFileIfExists(pkgName: string, version: string): void {
     // Enforce that -p and -r are not used together
     if (programOptions.patch && programOptions.reverse) {
         console.log(
-            startColor('redBright') +
-                'ERROR: ' +
-                stopColor() +
+            chalk.redBright('ERROR: ') +
                 'Cannot use -p/--patch and -r/--reverse together.'
         );
         process.exit(1);
@@ -79,9 +68,7 @@ function addPatchFileIfExists(pkgName: string, version: string): void {
 
         if (!fs.existsSync(patchDir)) {
             console.log(
-                startColor('yellowBright') +
-                    'WARNING: ' +
-                    stopColor() +
+                chalk.yellowBright('WARNING: ') +
                     'Missing "patches" folder - nothing to do'
             );
             process.exit(2);
@@ -118,9 +105,7 @@ function addPatchFileIfExists(pkgName: string, version: string): void {
             if (selectedPatchFiles.length === 0 && missingPackages.length > 0) {
                 missingPackages.forEach((pkg) => {
                     console.log(
-                        startColor('yellowBright') +
-                            'WARNING: ' +
-                            stopColor() +
+                        chalk.yellowBright('WARNING: ') +
                             `No patches found for package "${pkg}".`
                     );
                 });
@@ -141,9 +126,7 @@ function addPatchFileIfExists(pkgName: string, version: string): void {
         if (missingPackages.length > 0) {
             missingPackages.forEach((pkg) => {
                 console.log(
-                    startColor('yellowBright') +
-                        'WARNING: ' +
-                        stopColor() +
+                    chalk.yellowBright('WARNING: ') +
                         `No patches found for package "${pkg}".`
                 );
             });
@@ -151,9 +134,7 @@ function addPatchFileIfExists(pkgName: string, version: string): void {
 
         console.log(
             `${action === 'apply' ? 'Applying' : 'Reversing'} ` +
-                startColor('cyanBright') +
-                patchFiles.length +
-                stopColor() +
+                chalk.cyanBright(patchFiles.length) +
                 ` patch${patchFiles.length !== 1 ? 'es' : ''}`
         );
 
@@ -168,9 +149,7 @@ function addPatchFileIfExists(pkgName: string, version: string): void {
                     errorMessage = String(err);
                 }
                 console.log(
-                    startColor('redBright') +
-                        'ERROR: ' +
-                        stopColor() +
+                    chalk.redBright('ERROR: ') +
                         `Failed to ${action} patch for ${pkgName} - ${errorMessage}`
                 );
             }
@@ -184,9 +163,7 @@ function addPatchFileIfExists(pkgName: string, version: string): void {
         // Default behavior: apply all patches
         if (!fs.existsSync(patchDir)) {
             console.log(
-                startColor('yellowBright') +
-                    'WARNING: ' +
-                    stopColor() +
+                chalk.yellowBright('WARNING: ') +
                     'Missing "patches" folder - nothing to do'
             );
             process.exit(2);
@@ -199,9 +176,7 @@ function addPatchFileIfExists(pkgName: string, version: string): void {
         });
         console.log(
             'Found ' +
-                startColor('cyanBright') +
-                patchFiles.length +
-                stopColor() +
+                chalk.cyanBright(patchFiles.length) +
                 ' ' +
                 (patchFiles.length === 1 ? 'patch' : 'patches')
         );
@@ -217,9 +192,7 @@ function addPatchFileIfExists(pkgName: string, version: string): void {
                     errorMessage = String(err);
                 }
                 console.log(
-                    startColor('redBright') +
-                        'ERROR: ' +
-                        stopColor() +
+                    chalk.redBright('ERROR: ') +
                         `Failed to apply patch for ${pkgName} - ${errorMessage}`
                 );
             }
@@ -233,21 +206,13 @@ function addPatchFileIfExists(pkgName: string, version: string): void {
         errorMessage = String(err);
     }
     console.log(
-        startColor('redBright') +
-            'ERROR: ' +
-            stopColor() +
-            `Unhandled error: ${errorMessage}`
+        chalk.redBright('ERROR: ') + `Unhandled error: ${errorMessage}`
     );
     process.exit(1);
 });
 
 async function makePatch(pkgName: string): Promise<void> {
-    console.log(
-        'Creating patch for: ' +
-            startColor('magentaBright') +
-            pkgName +
-            stopColor()
-    );
+    console.log('Creating patch for: ' + chalk.magentaBright(pkgName));
     const cfg = getConfig(pkgName);
     if (cfg) {
         await fetchPackage(
@@ -257,10 +222,7 @@ async function makePatch(pkgName: string): Promise<void> {
         );
     } else {
         console.log(
-            startColor('redBright') +
-                'ERROR: ' +
-                stopColor() +
-                'Could not find the URL for tarball'
+            chalk.redBright('ERROR: ') + 'Could not find the URL for tarball'
         );
     }
 }
@@ -273,13 +235,9 @@ async function fetchPackage(
 ): Promise<void> {
     console.log(
         'Fetching tarball of ' +
-            startColor('whiteBright') +
-            pkgName +
-            stopColor() +
+            chalk.whiteBright(pkgName) +
             ' from ' +
-            startColor('green') +
-            url +
-            stopColor()
+            chalk.green(url)
     );
     const dest = path.join(os.tmpdir(), pkgName);
     try {
@@ -294,7 +252,7 @@ async function fetchPackage(
             errorMessage = String(err);
         }
 
-        console.log(startColor('redBright') + errorMessage + stopColor());
+        console.log(chalk.redBright(errorMessage));
         return;
     }
 
@@ -310,9 +268,7 @@ async function fetchPackage(
         }
 
         console.log(
-            startColor('redBright') +
-                'ERROR: ' +
-                stopColor() +
+            chalk.redBright('ERROR: ') +
                 `Could not clean up the TEMP folder - ${errorMessage}`
         );
     }

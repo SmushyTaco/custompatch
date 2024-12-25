@@ -2,7 +2,7 @@
 
 import * as fs from 'fs';
 import * as path from 'pathe';
-import { startColor, stopColor } from './ansiUtils';
+import chalk from 'chalk';
 
 export function pathNormalize(pathName: string): string {
     return path.normalize(
@@ -29,9 +29,7 @@ export function readFileContent(filePath: string): string {
             errorMessage = String(err);
         }
         console.log(
-            startColor('redBright') +
-                'ERROR: ' +
-                stopColor() +
+            chalk.redBright('ERROR: ') +
                 `Failed to read file ${filePath} - ${errorMessage}`
         );
         return '';

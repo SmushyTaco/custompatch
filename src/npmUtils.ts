@@ -1,6 +1,6 @@
 // npmUtils.ts
 
-import { getScopelessName, removeBuildMetadataFromVersion } from './utils';
+import { getScopelessName, removeBuildMetadataFromVersion } from './utils.js';
 
 export function npmTarballURL(
     pkgName: string,

@@ -3,7 +3,7 @@
 import { program } from 'commander';
 import * as path from 'path';
 import * as os from 'os';
-import ownPkg from '../package.json';
+import ownPkg from '../package.json' with { type: 'json' };
 
 export const curDir: string = process.cwd();
 export const tmpDir: string = os.tmpdir();

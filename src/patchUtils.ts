@@ -3,14 +3,14 @@
 import * as fs from 'fs';
 import * as path from 'pathe';
 import * as diff from 'diff';
-import { startColor, stopColor } from './ansiUtils';
-import { PackageConfig } from './types';
+import chalk from 'chalk';
+import { PackageConfig } from './types.js';
 import {
     ensureDirectoryExists,
     pathNormalize,
     readFileContent
-} from './fileUtils';
-import { programOptions, curDir, tmpDir, patchDir } from './variables';
+} from './fileUtils.js';
+import { programOptions, curDir, tmpDir, patchDir } from './variables.js';
 
 export function createPatch(
     pkgName: string,
@@ -50,9 +50,7 @@ export async function comparePackages(
     const stream = fs.createWriteStream(path.join(patchDir, patchFile));
     stream.on('error', (err) => {
         console.log(
-            startColor('redBright') +
-                'ERROR: ' +
-                stopColor() +
+            chalk.redBright('ERROR: ') +
                 `Failed to write to patch file - ${err.message}`
         );
     });
@@ -70,12 +68,7 @@ export async function comparePackages(
         stream.end();
     }
 
-    console.log(
-        'Successfully created ' +
-            startColor('greenBright') +
-            patchFile +
-            stopColor()
-    );
+    console.log('Successfully created ' + chalk.greenBright(patchFile));
 }
 
 export function scanFiles(
@@ -104,9 +97,7 @@ export function scanFiles(
             }
 
             console.log(
-                startColor('redBright') +
-                    'ERROR: ' +
-                    stopColor() +
+                chalk.redBright('ERROR: ') +
                     `Failed to read directory ${dirPath} - ${errorMessage}`
             );
             continue;
@@ -131,9 +122,7 @@ export function scanFiles(
                 }
 
                 console.log(
-                    startColor('redBright') +
-                        'ERROR: ' +
-                        stopColor() +
+                    chalk.redBright('ERROR: ') +
                         `Failed to get stats for ${itemPath} - ${errorMessage}`
                 );
                 continue;
@@ -172,9 +161,7 @@ export async function readPatch(
         const patchFilePath = path.join(patchDir, patchFile);
         if (!fs.existsSync(patchFilePath)) {
             console.log(
-                startColor('yellowBright') +
-                    'WARNING: ' +
-                    stopColor() +
+                chalk.yellowBright('WARNING: ') +
                     `Patch file "${patchFile}" does not exist.`
             );
             return;
@@ -188,9 +175,7 @@ export async function readPatch(
             const filePath = patchItem.newFileName ?? patchItem.oldFileName;
             if (!filePath) {
                 console.log(
-                    startColor('redBright') +
-                        'ERROR: ' +
-                        stopColor() +
+                    chalk.redBright('ERROR: ') +
                         `Patch item has no file names for package ${pkgName}`
                 );
                 continue; // Skip this patch item
@@ -204,9 +189,7 @@ export async function readPatch(
                 fileContent = readFileContent(fileName);
             } else {
                 console.log(
-                    startColor('yellowBright') +
-                        'WARNING: ' +
-                        stopColor() +
+                    chalk.yellowBright('WARNING: ') +
                         `File "${fileName}" does not exist - skipping.`
                 );
                 continue;
@@ -232,20 +215,14 @@ export async function readPatch(
                         // Patch is already reversed
                         console.log(
                             'Patch already reversed for ' +
-                                startColor('greenBright') +
-                                fileName +
-                                stopColor()
+                                chalk.greenBright(fileName)
                         );
                     } else {
                         // Patch failed for other reasons
                         console.log(
-                            startColor('yellowBright') +
-                                'WARNING: ' +
-                                stopColor() +
+                            chalk.yellowBright('WARNING: ') +
                                 'Failed to reverse patch for ' +
-                                startColor('redBright') +
-                                fileName +
-                                stopColor()
+                                chalk.redBright(fileName)
                         );
                     }
                 } else {
@@ -256,10 +233,7 @@ export async function readPatch(
                             'utf8'
                         );
                         console.log(
-                            'Reversed patch for ' +
-                                startColor('greenBright') +
-                                fileName +
-                                stopColor()
+                            'Reversed patch for ' + chalk.greenBright(fileName)
                         );
                     } catch (err) {
                         let errorMessage: string;
@@ -271,9 +245,7 @@ export async function readPatch(
                         }
 
                         console.log(
-                            startColor('redBright') +
-                                'ERROR: ' +
-                                stopColor() +
+                            chalk.redBright('ERROR: ') +
                                 `Could not write the new content for file ${fileName} - ${errorMessage}`
                         );
                     }
@@ -295,31 +267,20 @@ export async function readPatch(
                         // The patch was already applied
                         console.log(
                             'Patch already applied to ' +
-                                startColor('greenBright') +
-                                fileName +
-                                stopColor()
+                                chalk.greenBright(fileName)
                         );
                     } else {
                         // Patch failed for other reasons
                         console.log(
-                            startColor('yellowBright') +
-                                'WARNING: ' +
-                                stopColor() +
+                            chalk.yellowBright('WARNING: ') +
                                 'Failed to apply patch to ' +
-                                startColor('redBright') +
-                                fileName +
-                                stopColor()
+                                chalk.redBright(fileName)
                         );
                     }
                 } else {
                     try {
                         fs.writeFileSync(fileName, patchedContent, 'utf8');
-                        console.log(
-                            'Patched ' +
-                                startColor('greenBright') +
-                                fileName +
-                                stopColor()
-                        );
+                        console.log('Patched ' + chalk.greenBright(fileName));
                     } catch (err) {
                         let errorMessage: string;
 
@@ -330,9 +291,7 @@ export async function readPatch(
                         }
 
                         console.log(
-                            startColor('redBright') +
-                                'ERROR: ' +
-                                stopColor() +
+                            chalk.redBright('ERROR: ') +
                                 `Could not write the new content for file ${fileName} - ${errorMessage}`
                         );
                     }
@@ -341,9 +300,7 @@ export async function readPatch(
         }
     } else {
         console.log(
-            startColor('redBright') +
-                'ERROR: ' +
-                stopColor() +
+            chalk.redBright('ERROR: ') +
                 `Could not get config for package ${pkgName}`
         );
     }
@@ -355,10 +312,8 @@ export function getConfig(pkgName: string): PackageConfig | false {
 
     if (!fs.existsSync(folder)) {
         console.log(
-            startColor('redBright') +
-                'ERROR: ' +
-                stopColor() +
-                `Missing folder "${startColor('whiteBright')}${folder}${stopColor()}"`
+            chalk.redBright('ERROR: ') +
+                `Missing folder "${chalk.whiteBright(folder)}"`
         );
         return false;
     }
@@ -366,10 +321,8 @@ export function getConfig(pkgName: string): PackageConfig | false {
         fs.accessSync(cfgName, fs.constants.R_OK);
     } catch {
         console.log(
-            startColor('redBright') +
-                'ERROR: ' +
-                stopColor() +
-                `Cannot read "${startColor('whiteBright')}${cfgName}${stopColor()}"`
+            chalk.redBright('ERROR: ') +
+                `Cannot read "${chalk.whiteBright(cfgName)}"`
         );
         return false;
     }
@@ -388,14 +341,8 @@ export function getConfig(pkgName: string): PackageConfig | false {
         }
 
         console.log(
-            startColor('redBright') +
-                'ERROR: ' +
-                stopColor() +
-                `Could not parse "${startColor(
-                    'whiteBright'
-                )}package.json${stopColor()}" - ${startColor(
-                    'redBright'
-                )}${errorMessage}${stopColor()}`
+            chalk.redBright('ERROR: ') +
+                `Could not parse "${chalk.whiteBright('package.json')}" - ${chalk.redBright(errorMessage)}`
         );
         return false;
     }

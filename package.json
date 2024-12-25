@@ -2,6 +2,7 @@
   "name": "@smushytaco/custompatch",
   "version": "1.0.1",
   "description": "Tool for patching buggy NPM packages instead of forking them",
+  "type": "module",
   "author": {
     "name": "SmushyTaco",
     "email": "personal@nikanradan.com"
@@ -45,7 +46,8 @@
     "commander": "^12.1.0",
     "diff": "^7.0.0",
     "pacote": "^21.0.0",
-    "pathe": "^1.1.2"
+    "pathe": "^1.1.2",
+    "chalk": "^5.4.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",
