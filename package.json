@@ -1,6 +1,6 @@
 {
   "name": "@smushytaco/custompatch",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Tool for patching buggy NPM packages instead of forking them",
   "type": "module",
   "author": {
