@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 // cli.ts
 
 import * as fs from 'fs';
