@@ -41,7 +41,7 @@ export default defineConfig({
                 'os',
                 'commander',
                 'pacote',
-                'chalk',
+                'picocolors',
                 'diff',
                 '../package.json'
             ]

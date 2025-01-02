@@ -3,7 +3,7 @@
 import * as fs from 'fs';
 import * as path from 'pathe';
 import * as diff from 'diff';
-import chalk from 'chalk';
+import pc from 'picocolors';
 import { PackageConfig } from './types.js';
 import {
     ensureDirectoryExists,
@@ -49,9 +49,8 @@ export async function comparePackages(
 
     const stream = fs.createWriteStream(path.join(patchDir, patchFile));
     stream.on('error', (err) => {
-        console.log(
-            chalk.redBright('ERROR: ') +
-                `Failed to write to patch file - ${err.message}`
+        console.error(
+            `${pc.redBright('ERROR:')} Failed to write to patch file - ${err.message}`
         );
     });
 
@@ -68,7 +67,7 @@ export async function comparePackages(
         stream.end();
     }
 
-    console.log('Successfully created ' + chalk.greenBright(patchFile));
+    console.log(`Successfully created ${pc.greenBright(patchFile)}`);
 }
 
 export function scanFiles(
@@ -96,9 +95,8 @@ export function scanFiles(
                 errorMessage = String(err);
             }
 
-            console.log(
-                chalk.redBright('ERROR: ') +
-                    `Failed to read directory ${dirPath} - ${errorMessage}`
+            console.error(
+                `${pc.redBright('ERROR:')} Failed to read directory ${dirPath} - ${errorMessage}`
             );
             continue;
         }
@@ -121,9 +119,8 @@ export function scanFiles(
                     errorMessage = String(err);
                 }
 
-                console.log(
-                    chalk.redBright('ERROR: ') +
-                        `Failed to get stats for ${itemPath} - ${errorMessage}`
+                console.error(
+                    `${pc.redBright('ERROR:')} Failed to get stats for ${itemPath} - ${errorMessage}`
                 );
                 continue;
             }
@@ -160,9 +157,8 @@ export async function readPatch(
         const patchFile = makePatchName(pkgName, version);
         const patchFilePath = path.join(patchDir, patchFile);
         if (!fs.existsSync(patchFilePath)) {
-            console.log(
-                chalk.yellowBright('WARNING: ') +
-                    `Patch file "${patchFile}" does not exist.`
+            console.warn(
+                `${pc.yellowBright('WARNING:')} Patch file "${patchFile}" does not exist.`
             );
             return;
         }
@@ -174,9 +170,8 @@ export async function readPatch(
             // Ensure that we have a valid file name
             const filePath = patchItem.newFileName ?? patchItem.oldFileName;
             if (!filePath) {
-                console.log(
-                    chalk.redBright('ERROR: ') +
-                        `Patch item has no file names for package ${pkgName}`
+                console.error(
+                    `${pc.redBright('ERROR:')} Patch item has no file names for package ${pkgName}`
                 );
                 continue; // Skip this patch item
             }
@@ -188,9 +183,8 @@ export async function readPatch(
             if (fs.existsSync(fileName)) {
                 fileContent = readFileContent(fileName);
             } else {
-                console.log(
-                    chalk.yellowBright('WARNING: ') +
-                        `File "${fileName}" does not exist - skipping.`
+                console.warn(
+                    `${pc.yellowBright('WARNING:')} File "${fileName}" does not exist - skipping.`
                 );
                 continue;
             }
@@ -214,15 +208,12 @@ export async function readPatch(
                     if (patchedContent !== false) {
                         // Patch is already reversed
                         console.log(
-                            'Patch already reversed for ' +
-                                chalk.greenBright(fileName)
+                            `Patch already reversed for ${pc.greenBright(fileName)}`
                         );
                     } else {
                         // Patch failed for other reasons
-                        console.log(
-                            chalk.yellowBright('WARNING: ') +
-                                'Failed to reverse patch for ' +
-                                chalk.redBright(fileName)
+                        console.warn(
+                            `${pc.yellowBright('WARNING:')} Failed to reverse patch for ${pc.redBright(fileName)}`
                         );
                     }
                 } else {
@@ -233,7 +224,7 @@ export async function readPatch(
                             'utf8'
                         );
                         console.log(
-                            'Reversed patch for ' + chalk.greenBright(fileName)
+                            `Reversed patch for ${pc.greenBright(fileName)}`
                         );
                     } catch (err) {
                         let errorMessage: string;
@@ -244,9 +235,8 @@ export async function readPatch(
                             errorMessage = String(err);
                         }
 
-                        console.log(
-                            chalk.redBright('ERROR: ') +
-                                `Could not write the new content for file ${fileName} - ${errorMessage}`
+                        console.error(
+                            `${pc.redBright('ERROR:')} Could not write the new content for file ${fileName} - ${errorMessage}`
                         );
                     }
                 }
@@ -266,21 +256,18 @@ export async function readPatch(
                     if (reversePatchedContent !== false) {
                         // The patch was already applied
                         console.log(
-                            'Patch already applied to ' +
-                                chalk.greenBright(fileName)
+                            `Patch already applied to ${pc.greenBright(fileName)}`
                         );
                     } else {
                         // Patch failed for other reasons
-                        console.log(
-                            chalk.yellowBright('WARNING: ') +
-                                'Failed to apply patch to ' +
-                                chalk.redBright(fileName)
+                        console.warn(
+                            `${pc.yellowBright('WARNING:')} Failed to apply patch to ${pc.redBright(fileName)}`
                         );
                     }
                 } else {
                     try {
                         fs.writeFileSync(fileName, patchedContent, 'utf8');
-                        console.log('Patched ' + chalk.greenBright(fileName));
+                        console.log(`Patched ${pc.greenBright(fileName)}`);
                     } catch (err) {
                         let errorMessage: string;
 
@@ -290,18 +277,16 @@ export async function readPatch(
                             errorMessage = String(err);
                         }
 
-                        console.log(
-                            chalk.redBright('ERROR: ') +
-                                `Could not write the new content for file ${fileName} - ${errorMessage}`
+                        console.error(
+                            `${pc.redBright('ERROR:')} Could not write the new content for file ${fileName} - ${errorMessage}`
                         );
                     }
                 }
             }
         }
     } else {
-        console.log(
-            chalk.redBright('ERROR: ') +
-                `Could not get config for package ${pkgName}`
+        console.error(
+            `${pc.redBright('ERROR:')} Could not get config for package ${pkgName}`
         );
     }
 }
@@ -311,18 +296,16 @@ export function getConfig(pkgName: string): PackageConfig | false {
     const cfgName = path.join(folder, 'package.json');
 
     if (!fs.existsSync(folder)) {
-        console.log(
-            chalk.redBright('ERROR: ') +
-                `Missing folder "${chalk.whiteBright(folder)}"`
+        console.error(
+            `${pc.redBright('ERROR:')} Missing folder "${pc.whiteBright(folder)}"`
         );
         return false;
     }
     try {
         fs.accessSync(cfgName, fs.constants.R_OK);
     } catch {
-        console.log(
-            chalk.redBright('ERROR: ') +
-                `Cannot read "${chalk.whiteBright(cfgName)}"`
+        console.error(
+            `${pc.redBright('ERROR:')} Cannot read "${pc.whiteBright(cfgName)}"`
         );
         return false;
     }
@@ -340,9 +323,8 @@ export function getConfig(pkgName: string): PackageConfig | false {
             errorMessage = String(e);
         }
 
-        console.log(
-            chalk.redBright('ERROR: ') +
-                `Could not parse "${chalk.whiteBright('package.json')}" - ${chalk.redBright(errorMessage)}`
+        console.error(
+            `${pc.redBright('ERROR:')} Could not parse "${pc.whiteBright('package.json')}" - ${pc.redBright(errorMessage)}`
         );
         return false;
     }

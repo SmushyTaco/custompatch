@@ -1,6 +1,6 @@
 {
   "name": "@smushytaco/custompatch",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Tool for patching buggy NPM packages instead of forking them",
   "type": "module",
   "author": {
@@ -43,25 +43,25 @@
     "packages"
   ],
   "dependencies": {
-    "commander": "^12.1.0",
+    "commander": "^13.0.0",
     "diff": "^7.0.0",
     "pacote": "^21.0.0",
     "pathe": "^1.1.2",
-    "chalk": "^5.4.1"
+    "picocolors": "^1.1.1"
   },
   "devDependencies": {
-    "@eslint/js": "^9.17.0",
-    "@smushytaco/versionchecker": "^1.0.2",
     "@types/diff": "^6.0.0",
-    "@types/node": "^22.10.2",
+    "@types/node": "^22.10.3",
     "@types/pacote": "^11.1.8",
-    "prettier": "^3.4.2",
+    "@smushytaco/versionchecker": "^1.0.4",
+    "@eslint/js": "^9.17.0",
+    "@typescript-eslint/eslint-plugin": "^8.19.0",
+    "@typescript-eslint/parser": "^8.19.0",
+    "typescript-eslint": "^8.19.0",
     "typescript": "^5.7.2",
-    "@typescript-eslint/eslint-plugin": "^8.18.2",
-    "@typescript-eslint/parser": "^8.18.2",
-    "typescript-eslint": "^8.18.2",
+    "prettier": "^3.4.2",
     "vite": "^6.0.6",
-    "vite-plugin-tsc-transpile": "^1.0.2",
+    "vite-plugin-tsc-transpile": "^1.0.3",
     "globals": "^15.14.0",
     "del-cli": "^6.0.0"
   }

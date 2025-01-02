@@ -6,7 +6,7 @@ import * as os from 'os';
 import { program } from 'commander';
 import pacote from 'pacote';
 
-import chalk from 'chalk';
+import pc from 'picocolors';
 import ownPkg from '../package.json' with { type: 'json' };
 import { PatchFile } from './types.js';
 import { getConfig, comparePackages, readPatch } from './patchUtils.js';
@@ -23,9 +23,8 @@ function addPatchFileIfExists(pkgName: string, version: string): void {
     const dest = path.join(curDir, 'node_modules', packageName);
 
     if (!fs.existsSync(dest)) {
-        console.log(
-            chalk.yellowBright('WARNING') +
-                `Package "${packageName}" is not installed - skipping this patch`
+        console.warn(
+            `${pc.yellowBright('WARNING:')} Package "${packageName}" is not installed, skipping this patch.`
         );
         return;
     }
@@ -36,25 +35,21 @@ function addPatchFileIfExists(pkgName: string, version: string): void {
 (async () => {
     if (!programOptions.version) {
         console.log(
-            chalk.whiteBright('CustomPatch') +
-                ' version ' +
-                chalk.greenBright(ownPkg.version) +
-                '\n'
+            `${pc.whiteBright('CustomPatch')} version ${pc.greenBright(ownPkg.version)}!\n`
         );
     }
 
     if (!fs.existsSync(path.join(curDir, 'node_modules'))) {
-        console.log(
-            chalk.redBright('ERROR: ') + 'Missing "node_modules" folder'
+        console.error(
+            `${pc.redBright('ERROR:')} Missing "node_modules" folder.`
         );
         process.exit(1);
     }
 
     // Enforce that -p and -r are not used together
     if (programOptions.patch && programOptions.reverse) {
-        console.log(
-            chalk.redBright('ERROR: ') +
-                'Cannot use -p/--patch and -r/--reverse together.'
+        console.error(
+            `${pc.redBright('ERROR:')} Cannot use -p/--patch and -r/--reverse together.`
         );
         process.exit(1);
     }
@@ -65,9 +60,8 @@ function addPatchFileIfExists(pkgName: string, version: string): void {
         const packageNames = program.args; // Packages specified
 
         if (!fs.existsSync(patchDir)) {
-            console.log(
-                chalk.yellowBright('WARNING: ') +
-                    'Missing "patches" folder - nothing to do'
+            console.warn(
+                `${pc.yellowBright('WARNING:')} Missing "patches" folder, nothing to do.`
             );
             process.exit(2);
         }
@@ -102,9 +96,8 @@ function addPatchFileIfExists(pkgName: string, version: string): void {
 
             if (selectedPatchFiles.length === 0 && missingPackages.length > 0) {
                 missingPackages.forEach((pkg) => {
-                    console.log(
-                        chalk.yellowBright('WARNING: ') +
-                            `No patches found for package "${pkg}".`
+                    console.warn(
+                        `${pc.yellowBright('WARNING:')} No patches found for package "${pkg}".`
                     );
                 });
                 process.exit(0);
@@ -123,17 +116,14 @@ function addPatchFileIfExists(pkgName: string, version: string): void {
         // Output specific missing package warnings
         if (missingPackages.length > 0) {
             missingPackages.forEach((pkg) => {
-                console.log(
-                    chalk.yellowBright('WARNING: ') +
-                        `No patches found for package "${pkg}".`
+                console.warn(
+                    `${pc.yellowBright('WARNING:')} No patches found for package "${pkg}".`
                 );
             });
         }
 
         console.log(
-            `${action === 'apply' ? 'Applying' : 'Reversing'} ` +
-                chalk.cyanBright(patchFiles.length) +
-                ` patch${patchFiles.length !== 1 ? 'es' : ''}`
+            `${action === 'apply' ? 'Applying' : 'Reversing'} ${pc.cyanBright(patchFiles.length)} patch${patchFiles.length !== 1 ? 'es.' : '.'}`
         );
 
         for (const { pkgName, version } of patchFiles) {
@@ -146,9 +136,8 @@ function addPatchFileIfExists(pkgName: string, version: string): void {
                 } else {
                     errorMessage = String(err);
                 }
-                console.log(
-                    chalk.redBright('ERROR: ') +
-                        `Failed to ${action} patch for ${pkgName} - ${errorMessage}`
+                console.error(
+                    `${pc.redBright('ERROR:')} Failed to ${action} patch for ${pkgName} - ${errorMessage}`
                 );
             }
         }
@@ -160,9 +149,8 @@ function addPatchFileIfExists(pkgName: string, version: string): void {
     } else {
         // Default behavior: apply all patches
         if (!fs.existsSync(patchDir)) {
-            console.log(
-                chalk.yellowBright('WARNING: ') +
-                    'Missing "patches" folder - nothing to do'
+            console.warn(
+                `${pc.yellowBright('WARNING:')} Missing "patches" folder, nothing to do.`
             );
             process.exit(2);
         }
@@ -173,10 +161,7 @@ function addPatchFileIfExists(pkgName: string, version: string): void {
             addPatchFileIfExists(pkg[0], pkg[1]);
         });
         console.log(
-            'Found ' +
-                chalk.cyanBright(patchFiles.length) +
-                ' ' +
-                (patchFiles.length === 1 ? 'patch' : 'patches')
+            `Found ${pc.cyanBright(patchFiles.length)} ${patchFiles.length === 1 ? 'patch.' : 'patches.'}`
         );
 
         for (const { pkgName, version } of patchFiles) {
@@ -189,9 +174,8 @@ function addPatchFileIfExists(pkgName: string, version: string): void {
                 } else {
                     errorMessage = String(err);
                 }
-                console.log(
-                    chalk.redBright('ERROR: ') +
-                        `Failed to apply patch for ${pkgName} - ${errorMessage}`
+                console.error(
+                    `${pc.redBright('ERROR:')} Failed to apply patch for ${pkgName} - ${errorMessage}`
                 );
             }
         }
@@ -203,14 +187,12 @@ function addPatchFileIfExists(pkgName: string, version: string): void {
     } else {
         errorMessage = String(err);
     }
-    console.log(
-        chalk.redBright('ERROR: ') + `Unhandled error: ${errorMessage}`
-    );
+    console.error(`${pc.redBright('ERROR:')} Unhandled error: ${errorMessage}`);
     process.exit(1);
 });
 
 async function makePatch(pkgName: string): Promise<void> {
-    console.log('Creating patch for: ' + chalk.magentaBright(pkgName));
+    console.log(`Creating patch for: ${pc.magentaBright(pkgName)}.`);
     const cfg = getConfig(pkgName);
     if (cfg) {
         await fetchPackage(
@@ -219,8 +201,8 @@ async function makePatch(pkgName: string): Promise<void> {
             cfg.version
         );
     } else {
-        console.log(
-            chalk.redBright('ERROR: ') + 'Could not find the URL for tarball'
+        console.error(
+            `${pc.redBright('ERROR:')} Could not find the URL for tarball.`
         );
     }
 }
@@ -232,10 +214,7 @@ async function fetchPackage(
     version: string
 ): Promise<void> {
     console.log(
-        'Fetching tarball of ' +
-            chalk.whiteBright(pkgName) +
-            ' from ' +
-            chalk.green(url)
+        `Fetching tarball of ${pc.whiteBright(pkgName)} from ${pc.green(url)}`
     );
     const dest = path.join(os.tmpdir(), pkgName);
     try {
@@ -250,7 +229,7 @@ async function fetchPackage(
             errorMessage = String(err);
         }
 
-        console.log(chalk.redBright(errorMessage));
+        console.error(pc.redBright(errorMessage));
         return;
     }
 
@@ -265,9 +244,8 @@ async function fetchPackage(
             errorMessage = String(err);
         }
 
-        console.log(
-            chalk.redBright('ERROR: ') +
-                `Could not clean up the TEMP folder - ${errorMessage}`
+        console.error(
+            `${pc.redBright('ERROR:')} Could not clean up the TEMP folder - ${errorMessage}`
         );
     }
 }

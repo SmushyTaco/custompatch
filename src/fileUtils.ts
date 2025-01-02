@@ -2,7 +2,7 @@
 
 import * as fs from 'fs';
 import * as path from 'pathe';
-import chalk from 'chalk';
+import pc from 'picocolors';
 
 export function pathNormalize(pathName: string): string {
     return path.normalize(
@@ -28,9 +28,8 @@ export function readFileContent(filePath: string): string {
         } else {
             errorMessage = String(err);
         }
-        console.log(
-            chalk.redBright('ERROR: ') +
-                `Failed to read file ${filePath} - ${errorMessage}`
+        console.error(
+            `${pc.redBright('ERROR:')} Failed to read file ${filePath} - ${errorMessage}`
         );
         return '';
     }
