@@ -1,19 +1,41 @@
 {
-  "name": "custompatch",
-  "version": "1.1.5",
+  "name": "@smushytaco/custompatch",
+  "version": "1.0.8",
   "description": "Tool for patching buggy NPM packages instead of forking them",
-  "author": "IVO GELOV",
-  "private": false,
-  "license": "BSD-3-Clause",
-  "repository": "github:tmcdos/custompatch",
-  "bin": "./index.mjs",
-  "scripts": {
-    "build": "esbuild ./src/index.js --bundle --platform=node --format=esm --target=es2020,node16 --packages=external --outfile=index.mjs",
-    "prepare": "npm run build"
+  "type": "module",
+  "author": {
+    "name": "SmushyTaco",
+    "email": "personal@nikanradan.com"
   },
+  "private": false,
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SmushyTaco/custompatch.git"
+  },
+  "bugs": {
+    "url": "https://github.com/SmushyTaco/custompatch/issues"
+  },
+  "bin": {
+    "custompatch": "dist/cli.mjs"
+  },
+  "scripts": {
+    "clean": "npx del-cli dist",
+    "build": "npm run clean && npx vite build",
+    "prepare": "npm run build",
+    "start": "node ./dist/cli.mjs"
+  },
+  "files": [
+    "dist",
+    "LICENSE",
+    "README.md"
+  ],
   "engines": {
-    "node": ">= 16.20.0",
-    "npm": ">= 9.6.7"
+    "node": ">=22.13.0",
+    "npm": ">=11.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "keywords": [
     "patching",
@@ -21,14 +43,28 @@
     "packages"
   ],
   "dependencies": {
-    "commander": "^12.1.0",
+    "commander": "^13.0.0",
     "diff": "^7.0.0",
-    "pacote": "^18.0.6"
+    "pacote": "^21.0.0",
+    "pathe": "^2.0.1",
+    "picocolors": "^1.1.1"
   },
   "devDependencies": {
-    "@types/diff": "^5.2.2",
-    "@types/node": "^22.5.5",
+    "@types/diff": "^7.0.0",
+    "@types/node": "^22.10.6",
     "@types/pacote": "^11.1.8",
-    "esbuild": "0.24.2"
+    "@smushytaco/versionchecker": "^1.0.5",
+    "@eslint/js": "^9.18.0",
+    "@typescript-eslint/eslint-plugin": "^8.20.0",
+    "@typescript-eslint/parser": "^8.20.0",
+    "typescript-eslint": "^8.20.0",
+    "eslint-plugin-unicorn": "^56.0.1",
+    "eslint-plugin-prettier": "^5.2.1",
+    "typescript": "^5.7.3",
+    "prettier": "^3.4.2",
+    "vite": "^6.0.7",
+    "vite-plugin-tsc-transpile": "^1.0.4",
+    "globals": "^15.14.0",
+    "del-cli": "^6.0.0"
   }
 }
