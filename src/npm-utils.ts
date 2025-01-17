@@ -7,7 +7,7 @@ export function npmTarballURL(
 ): string {
     let registry: string;
     if (registryURL) {
-        registry = registryURL.endsWith('/') ? registryURL : registryURL + '/';
+        registry = registryURL.endsWith('/') ? registryURL : `${registryURL}/`;
     } else {
         registry = 'https://registry.npmjs.org/';
     }

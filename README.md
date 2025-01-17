@@ -27,8 +27,7 @@ It operates in exactly the same way as [patch-package](https://www.npmjs.com/pac
 Add the following to your `package.json`
 
 ```json
-"scripts": 
-{
+"scripts": {
   "prepare": "custompatch"
 }
 ```

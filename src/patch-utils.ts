@@ -51,7 +51,7 @@ export function createPatch(
 }
 
 export function makePatchName(packageName: string, version: string): string {
-    return packageName.replaceAll('/', '+') + '#' + version + '.patch';
+    return `${packageName.replaceAll('/', '+')}#${version}.patch`;
 }
 
 export async function comparePackages(
