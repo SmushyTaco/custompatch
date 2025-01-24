@@ -1,47 +1,40 @@
 {
   "name": "@smushytaco/custompatch",
   "version": "1.0.10",
-  "description": "Tool for patching buggy NPM packages instead of forking them",
-  "type": "module",
-  "author": {
-    "name": "SmushyTaco",
-    "email": "personal@nikanradan.com"
-  },
   "private": false,
-  "license": "MIT",
+  "description": "Tool for patching buggy NPM packages instead of forking them",
+  "keywords": [
+    "patching",
+    "buggy",
+    "packages"
+  ],
+  "bugs": {
+    "url": "https://github.com/SmushyTaco/custompatch/issues"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/SmushyTaco/custompatch.git"
   },
-  "bugs": {
-    "url": "https://github.com/SmushyTaco/custompatch/issues"
+  "license": "MIT",
+  "author": {
+    "name": "SmushyTaco",
+    "email": "personal@nikanradan.com"
   },
+  "type": "module",
   "bin": {
     "custompatch": "dist/cli.mjs"
-  },
-  "scripts": {
-    "clean": "npx del-cli dist",
-    "build": "npm run clean && npx vite build",
-    "prepare": "npm run build",
-    "start": "node ./dist/cli.mjs"
   },
   "files": [
     "dist",
     "LICENSE",
     "README.md"
   ],
-  "engines": {
-    "node": ">=22.13.0",
-    "npm": ">=11.0.0"
+  "scripts": {
+    "build": "npm run clean && npx vite build",
+    "clean": "npx del-cli dist",
+    "prepare": "npm run build",
+    "start": "node ./dist/cli.mjs"
   },
-  "publishConfig": {
-    "access": "public"
-  },
-  "keywords": [
-    "patching",
-    "buggy",
-    "packages"
-  ],
   "dependencies": {
     "commander": "^13.1.0",
     "diff": "^7.0.0",
@@ -50,21 +43,29 @@
     "picocolors": "^1.1.1"
   },
   "devDependencies": {
+    "@eslint/js": "^9.19.0",
+    "@smushytaco/versionchecker": "^1.0.5",
     "@types/diff": "^7.0.0",
     "@types/node": "^22.10.10",
     "@types/pacote": "^11.1.8",
-    "@smushytaco/versionchecker": "^1.0.5",
-    "@eslint/js": "^9.19.0",
     "@typescript-eslint/eslint-plugin": "^8.21.0",
     "@typescript-eslint/parser": "^8.21.0",
-    "typescript-eslint": "^8.21.0",
-    "eslint-plugin-unicorn": "^56.0.1",
+    "del-cli": "^6.0.0",
     "eslint-plugin-prettier": "^5.2.3",
-    "typescript": "^5.7.3",
-    "prettier": "^3.4.2",
-    "vite": "^6.0.11",
-    "vite-plugin-tsc-transpile": "^1.0.4",
+    "eslint-plugin-unicorn": "^56.0.1",
     "globals": "^15.14.0",
-    "del-cli": "^6.0.0"
+    "prettier": "^3.4.2",
+    "sort-package-json": "^2.14.0",
+    "typescript": "^5.7.3",
+    "typescript-eslint": "^8.21.0",
+    "vite": "^6.0.11",
+    "vite-plugin-tsc-transpile": "^1.0.4"
+  },
+  "engines": {
+    "node": ">=22.13.0",
+    "npm": ">=11.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
