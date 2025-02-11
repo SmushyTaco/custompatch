@@ -1,6 +1,6 @@
 {
   "name": "@smushytaco/custompatch",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "private": false,
   "description": "Tool for patching buggy NPM packages instead of forking them",
   "keywords": [
@@ -39,7 +39,7 @@
     "commander": "^13.1.0",
     "diff": "^7.0.0",
     "pacote": "^21.0.0",
-    "pathe": "^2.0.2",
+    "pathe": "^2.0.3",
     "picocolors": "^1.1.1"
   },
   "devDependencies": {
