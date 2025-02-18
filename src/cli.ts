@@ -8,8 +8,8 @@ import pacote from 'pacote';
 import pc from 'picocolors';
 import ownPackage from '../package.json' with { type: 'json' };
 import { PatchFile } from './types.js';
-import { getConfig, comparePackages, readPatch } from './patch-utils.js';
-import { npmTarballURL } from './npm-utils.js';
+import { getConfig, comparePackages, readPatch } from './patch-utilities.js';
+import { npmTarballURL } from './npm-utilities.js';
 import {
     programOptions,
     currentDirectory,

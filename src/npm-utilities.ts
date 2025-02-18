@@ -1,4 +1,7 @@
-import { getScopelessName, removeBuildMetadataFromVersion } from './utils.js';
+import {
+    getScopelessName,
+    removeBuildMetadataFromVersion
+} from './utilities.js';
 
 export function npmTarballURL(
     packageName: string,

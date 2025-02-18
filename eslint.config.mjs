@@ -27,7 +27,7 @@ export default [
         rules: {
             ...eslint.configs.recommended.rules,
             ...tsEslintPlugin.configs.recommended.rules,
-            ...unicornPlugin.configs['flat/recommended']['rules'],
+            ...unicornPlugin.configs.recommended.rules,
             'prettier/prettier': 'error'
         }
     },
@@ -45,7 +45,7 @@ export default [
         },
         rules: {
             ...eslint.configs.recommended.rules,
-            ...unicornPlugin.configs['flat/recommended']['rules'],
+            ...unicornPlugin.configs.recommended.rules,
             'prettier/prettier': 'error'
         }
     },
@@ -67,7 +67,7 @@ export default [
         rules: {
             ...eslint.configs.recommended.rules,
             ...tsEslintPlugin.configs.recommended.rules,
-            ...unicornPlugin.configs['flat/recommended']['rules'],
+            ...unicornPlugin.configs.recommended.rules,
             'prettier/prettier': 'error'
         }
     }

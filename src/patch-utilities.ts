@@ -12,7 +12,7 @@ import {
     ensureDirectoryExists,
     pathNormalize,
     readFileContent
-} from './file-utils.js';
+} from './file-utilities.js';
 import {
     programOptions,
     currentDirectory,
