@@ -15,19 +15,19 @@ export default defineConfig({
                 ),
                 path.resolve(
                     path.dirname(fileURLToPath(import.meta.url)),
-                    'src/file-utils.ts'
+                    'src/file-utilities.ts'
                 ),
                 path.resolve(
                     path.dirname(fileURLToPath(import.meta.url)),
-                    'src/npm-utils.ts'
+                    'src/npm-utilities.ts'
                 ),
                 path.resolve(
                     path.dirname(fileURLToPath(import.meta.url)),
-                    'src/patch-utils.ts'
+                    'src/patch-utilities.ts'
                 ),
                 path.resolve(
                     path.dirname(fileURLToPath(import.meta.url)),
-                    'src/utils.ts'
+                    'src/utilities.ts'
                 ),
                 path.resolve(
                     path.dirname(fileURLToPath(import.meta.url)),
