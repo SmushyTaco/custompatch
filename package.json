@@ -1,6 +1,6 @@
 {
   "name": "@smushytaco/custompatch",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "private": false,
   "description": "Tool for patching buggy NPM packages instead of forking them",
   "keywords": [
@@ -36,20 +36,19 @@
     "start": "node ./dist/cli.mjs"
   },
   "dependencies": {
-    "commander": "^13.1.0",
-    "diff": "^7.0.0",
+    "commander": "^14.0.0",
+    "diff": "^8.0.1",
     "pacote": "^21.0.0",
     "pathe": "^2.0.3",
     "picocolors": "^1.1.1"
   },
   "devDependencies": {
-    "@eslint/js": "^9.26.0",
-    "@smushytaco/versionchecker": "^1.0.9",
-    "@types/diff": "^7.0.2",
-    "@types/node": "^22.15.17",
+    "@eslint/js": "^9.27.0",
+    "@smushytaco/versionchecker": "^1.0.10",
+    "@types/node": "^22.15.18",
     "@types/pacote": "^11.1.8",
-    "@typescript-eslint/eslint-plugin": "^8.32.0",
-    "@typescript-eslint/parser": "^8.32.0",
+    "@typescript-eslint/eslint-plugin": "^8.32.1",
+    "@typescript-eslint/parser": "^8.32.1",
     "del-cli": "^6.0.0",
     "eslint-plugin-prettier": "^5.4.0",
     "eslint-plugin-unicorn": "^59.0.1",
@@ -57,7 +56,7 @@
     "prettier": "^3.5.3",
     "sort-package-json": "^3.2.1",
     "typescript": "^5.8.3",
-    "typescript-eslint": "^8.32.0",
+    "typescript-eslint": "^8.32.1",
     "vite": "^6.3.5",
     "vite-plugin-tsc-transpile": "^1.0.6"
   },
