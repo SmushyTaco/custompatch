@@ -1,9 +1,9 @@
 export interface PackageConfig {
-    name: string;
-    version: string;
+  name: string;
+  version: string;
 }
 
 export interface PatchFile {
-    packageName: string;
-    version: string;
+  packageName: string;
+  version: string;
 }
